@@ -83,8 +83,11 @@ async def aio(url,name):
     return k
 
 
-async def download(url,name):
-    ka = f'{name}.pdf'
+async def download(url, name):
+    if ".pdf" in url:
+        ka = f'{name}.pdf'
+    elif ".ws" in url:
+        ka = f'{name}.html'
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
             if resp.status == 200:
@@ -92,7 +95,6 @@ async def download(url,name):
                 await f.write(await resp.read())
                 await f.close()
     return ka
-
 
 
 def parse_vid_info(info):
