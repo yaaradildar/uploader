@@ -7,6 +7,10 @@ import time
 import datetime
 import aiohttp
 import aiofiles
+import aiohttp
+import aiofiles
+import subprocess
+import yt_dlp
 import asyncio
 import logging
 import requests
@@ -85,17 +89,38 @@ async def aio(url,name):
 
 async def download(url, name):
     if ".pdf" in url:
-        ka = f'{name}.pdf'
+    	ka = f'{name}.pdf'
     elif ".ws" in url:
-        ka = f'{name}.html'
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
-            if resp.status == 200:
-                f = await aiofiles.open(ka, mode='wb')
-                await f.write(await resp.read())
-                await f.close()
-    return ka
-
+    	ka = f'{name}.html'
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as resp:
+                if resp.status == 200:
+                    async with aiofiles.open(ka, mode='wb') as f:
+                        await f.write(await resp.read())
+                    print(f"Downloaded using aiohttp: {ka}")
+                    return ka
+    except Exception:
+        pass
+    try:
+        ydl_opts = {
+            'outtmpl': ka,
+            'format': 'best',
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        print(f"Downloaded using yt-dlp: {ka}")
+        return ka
+    except Exception:
+        pass
+    try:
+        subprocess.run(['aria2c', url, '-o', ka], check=True)
+        print(f"Downloaded using aria2c: {ka}")
+        return ka
+    except Exception:
+        pass
+    print(f"All download methods failed for {url}")
+    return None
 
 def parse_vid_info(info):
     info = info.strip()
@@ -258,4 +283,4 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
 
     os.remove(f"{filename}.jpg")
     await reply.delete (True)
-    
+
