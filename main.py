@@ -36,7 +36,7 @@ bot = Client(
 
 @bot.on_message(filters.command(["start"]))
 async def start(bot: Client, m: Message):
-    await m.reply_text(f"<b>Hello {m.from_user.mention} 👋\n\n I Am A Bot For Download Links From Your **.TXT** File And Then Upload That File On Telegram So Basically If You Want To Use Me First Send Me /upload Command And Then Follow Few Steps..\n\nUse /stop to stop any ongoing task.</b>")
+    await m.reply_text(f"<b>Hello {m.from_user.mention} 👋\n\n I Am A Bot For Download Links From Your **.TXT** File And Then Upload That File On Telegram So Basically If You Want To Use Me First Send Me /txt Command And Then Follow Few Steps..\n\nUse /stop to stop any ongoing task.</b>")
 
 
 @bot.on_message(filters.command("stop"))
@@ -46,7 +46,7 @@ async def restart_handler(_, m):
 
 
 
-@bot.on_message(filters.command(["upload"]))
+@bot.on_message(filters.command(["txt"]))
 async def upload(bot: Client, m: Message):
     editable = await m.reply_text('𝕤ᴇɴᴅ ᴛxᴛ ғɪʟᴇ ⚡️')
     input: Message = await bot.listen(editable.chat.id)
@@ -147,8 +147,11 @@ async def upload(bot: Client, m: Message):
 
             elif "tencdn.classplusapp" in url or "media-cdn-alisg.classplusapp.com" in url or "videos.classplusapp" in url or "media-cdn.classplusapp" in url:
             	url = f"https://drm-api-six.vercel.app/api/cp/dl?url={url}"
-            elif "edge.api.brightcove.com/playback" in url:
-             a = url + "?bcov_auth=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MjYwNTI4NTAsImNvbiI6eyJpc0FkbWluIjpmYWxzZSwiYXVzZXIiOiJVMFZ6TkdGU2NuQlZjR3h5TkZwV09FYzBURGxOZHowOSIsImlkIjoiTHpkcWVqQlRValpxZW1rNU5HbHZaR2d3UTJocVVUMDkiLCJmaXJzdF9uYW1lIjoiYUZwblRVc3JURXBHT1Rkc1JqZEZRa05PVDNVclFUMDkiLCJlbWFpbCI6ImNuWjZOek50WVM5a2JVRk9ORnBDTUdWNGVFMXlZbXBrUmtsYU5qSnlUREJpVTJwcVFTdEZSRkJKYnowPSIsInBob25lIjoiUzJoNWRHNXBZbmhaVTBsNlV5czFOVlYxUjBoMFFUMDkiLCJhdmF0YXIiOiJLM1ZzY1M4elMwcDBRbmxrYms4M1JEbHZla05pVVQwOSIsInJlZmVycmFsX2NvZGUiOiJRWG80YUV0cVpHUjVielo0U2tkUFRFSkRPR0ZEUVQwOSIsImRldmljZV90eXBlIjoiYW5kcm9pZCIsImRldmljZV92ZXJzaW9uIjoidXBwZXIgdGhhbiAzMSIsImRldmljZV9tb2RlbCI6IlhpYW9NaSBNMjAwN0oxN0MiLCJyZW1vdGVfYWRkciI6IjQ0LjIyMy45My4xNzIifX0.sklUO3vIIiOluVc02DIag9odRoW9iEUv_Dc1gr_jgmypKBO-w6y35GrtDkSR4Ucp6MbQnhpDYFoMpmYhf4nEfDKoTVU7JuwkW-csrFMe5AfmV1Jhz0TiTL733nrwKv9bcmkwJjH_n036wdVg84V4yKaGh3n8YNi95ZtKIK1y_jYgoMIG2fUWZvlJvL7naXa4nWhc789PmCbt0fbG2slPZi7hEYh4k8M4BQSXQ_9dIJHrwsTgoHz-2ZcfCCBAHTIpaUhjpQQ9O_EHczc6pxPIs7mslRey9sdaNAaz2DCJA_p1zwLH-4RLNwKmM2IgES1FNJEJJm6dXzaAsQ5zNsMaSg"
+            	
+            elif "cwmediabkt99.crwilladmin.com" in url:
+            	url = url.replace(' ', '%20')
+            elif ".pdf*abcdefg" in url:
+             a = url.replace('*abcdefg', '')
              url = a
             elif '/master.mpd' in url:
              id =  url.split("/")[-2]
@@ -176,39 +179,40 @@ async def upload(bot: Client, m: Message):
                      url = a
                      key = k
                      try:
-                      if ".pdf" in url:
-                       Show = f"⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}\n\n🔗URL » {url}"
-                       prog = await m.reply_text(Show)
-                       file_path = await helper.download_file(url, name)
-                       copy = helper.decrypt_file(file_path, key)
-                       filename = file_path
-                       await prog.delete(True)
-                       await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
-                      else:
-                       Show = f"⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}\n\n🔗URL » {url}"
-                       prog = await m.reply_text(Show)
-                       file_path = await helper.download_file(url, name)
-                       copy = helper.decrypt_file(file_path, key)
-                       filename = file_path
-                       await prog.delete(True)
-                       await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
-                      count += 1
+                      	if ".pdf" in a:
+                      		Show = f"⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}\n\n🔗URL » {url}"
+                      		prog = await m.reply_text(Show)
+                      		file_path = await helper.download_file(url, name)
+                      		copy = helper.decrypt_file(file_path, key)
+                      		filename = file_path
+                      		await prog.delete(True)
+                      		await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
+                      		count += 1
+                      	else:
+                      		Show = f"⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}\n\n🔗URL » {url}"
+                      		prog = await m.reply_text(Show)
+                      		file_path = await helper.download_file(url, name)
+                      		copy = helper.decrypt_file(file_path, key)
+                      		filename = file_path
+                      		await prog.delete(True)
+                      		await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+                      		count += 1
                      except FloodWait as e:
                       await m.reply_text(str(e))
                       time.sleep(1)
                       continue
-                elif "drive" in url:
+                
+                elif "drive" in url or ".ws" in url or "cwmediabkt99.crwilladmin.com" in url:
                     try:
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
                         count+=1
                         os.remove(ka)
-                        time.sleep(1)
+                        time.sleep(2)
                     except FloodWait as e:
                         await m.reply_text(str(e))
                         time.sleep(e.x)
                         continue
-                
                 elif ".pdf" in url:
                     try:
                         cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
