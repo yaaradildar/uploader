@@ -176,13 +176,22 @@ async def upload(bot: Client, m: Message):
                      url = a
                      key = k
                      try:
-                      Show = f"**⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »**\n\n**📝Name »** `{name}\n❄Quality » {raw_text2}`\n\n**🔗URL »** `{url}`"
-                      prog = await m.reply_text(Show)
-                      file_path = await helper.download_file(url, name)
-                      copy = helper.decrypt_file(file_path, key)
-                      filename = file_path
-                      await prog.delete(True)
-                      await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
+                      if ".pdf" in url:
+                       Show = f"⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}\n\n🔗URL » {url}"
+                       prog = await m.reply_text(Show)
+                       file_path = await helper.download_file(url, name)
+                       copy = helper.decrypt_file(file_path, key)
+                       filename = file_path
+                       await prog.delete(True)
+                       await bot.send_document(chat_id=m.chat.id, document=filename, caption=cc1)
+                      else:
+                       Show = f"⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »\n\n📝Name » {name}\n❄Quality » {raw_text2}\n\n🔗URL » {url}"
+                       prog = await m.reply_text(Show)
+                       file_path = await helper.download_file(url, name)
+                       copy = helper.decrypt_file(file_path, key)
+                       filename = file_path
+                       await prog.delete(True)
+                       await helper.send_vid(bot, m, cc, filename, thumb, name, prog)
                       count += 1
                      except FloodWait as e:
                       await m.reply_text(str(e))
